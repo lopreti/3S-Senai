@@ -43,9 +43,11 @@ public class Main {
         switch (opcao) {
             case "1":
                 listarTurmas();
+                menuTurmas();
                 break;
             case "2":
                 cadastrarTurma();
+                menuTurmas();
                 break;
             case "3":
                 atualizarTurma();
@@ -58,6 +60,7 @@ public class Main {
                 break;
             default:
                 System.out.println("Opção inválida! Tente novamente");
+                menuTurmas();
         }
     }
 
@@ -72,6 +75,7 @@ public class Main {
         switch (opcao) {
             case "1":
                 listarAlunos();
+                menuAlunos();
                 break;
             case "2":
                 cadastrarAluno();
@@ -87,6 +91,7 @@ public class Main {
                 break;
             default:
                 System.out.println("Opção inválida! Tente novamente");
+                menuAlunos();
         }
     }
 
@@ -97,10 +102,64 @@ public class Main {
     }
 
     private static void cadastrarTurma() {
+        Periodo periodo = validarPeriodo();
 
+        String curso = Leitura.dados("digite o curso: ");
+        while (!isCharacter(curso)) {
+            System.out.println("nome de curso invalido, digite apenas letras");
+        }
+
+        String sigla = Leitura.dados("digite a sigla: ");
+        boolean repetido = true;
+        while(sigla.isBlank() || !repetido) {
+            System.out.println("sigla invalida");
+            sigla = Leitura.dados("digite a sigla novamente: ");
+            sigla = sigla.toUpperCase();
+
+            for (Turma t : listaTurmas) {
+                if (t.getSigla().equals(sigla)) {
+                    System.out.println("turma já cadastrada");
+                    repetido = true;
+                }
+            }
+        }
+
+        Turma turma = new Turma(curso, sigla, periodo);
+        listaTurmas.add(turma);
+    }
+
+    private static boolean isCharacter(String curso) {
+        String cursoSemNumeros = curso.replaceAll("\\d", "");
+        return !curso.isBlank() && curso.equals(cursoSemNumeros);
+    }
+
+    private static Periodo validarPeriodo() {
+        String opcaoPeriodo = Leitura.dados("""
+                Digite o número do Período escolhido:
+                 1- matutino
+                 2- vespertino
+                 3- noturno
+                 4- integral""");
+        switch (opcaoPeriodo) {
+            case "1":
+                return Periodo.MATUTINO;
+            case "2":
+                return Periodo.VESPERTINO;
+            case "3":
+                return Periodo.NOTURNO;
+            case "4":
+                return Periodo.INTEGRAL;
+            default:
+                System.out.println("opcao invalida, digite novamente: ");
+                return validarPeriodo();
+        }
     }
 
     private static void listarTurmas() {
+        if (listaTurmas.isEmpty()){
+            System.out.println("nao há turmas");
+            return;
+        }
         for(Turma t : listaTurmas){
             System.out.println(t);
         }
@@ -119,6 +178,12 @@ public class Main {
     }
 
     private static void listarAlunos() {
-
+        if (listaAlunos.isEmpty()){
+            System.out.println("nao há alunos");
+            return;
+        }
+        for(Aluno a : listaAlunos){
+            System.out.println(a);
+        }
     }
 }
