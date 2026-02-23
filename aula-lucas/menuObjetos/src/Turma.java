@@ -5,9 +5,9 @@ public class Turma {
     private String sigla;
     private Periodo periodo;
 
-    public Turma(String curso, String sigla, Periodo periodo ) {
-        this.sigla = sigla;
+    public Turma(String curso, String sigla, Periodo periodo) {
         this.curso = curso;
+        this.sigla = sigla;
         this.periodo = periodo;
     }
 
@@ -39,5 +39,14 @@ public class Turma {
 
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
+    }
+
+    @Override
+    public String toString() {
+        return "Turma{" +
+                "curso='" + curso + '\'' +
+                ", sigla='" + sigla + '\'' +
+                ", periodo=" + periodo +
+                '}';
     }
 }
