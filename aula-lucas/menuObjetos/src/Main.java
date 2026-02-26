@@ -30,7 +30,6 @@ public class Main {
                 System.out.println("Opção inválida! Tente novamente");
                 menuPrincipal();
         }
-
     }
 
     private static void menuTurmas() {
@@ -100,13 +99,40 @@ public class Main {
 
     private static void excluirTurma() {
         listarTurmasIndiceSigla();
-        String opcao = Leitura.dados("digite o numero da turma desejada: ");
+        String opcao = Leitura.dados("\ndigite o numero da turma desejada: ");
         int opcaoValida =-1;
-        while (validarOpcaoExcluir(opcao)==-1) {
-            System.out.println("opcao invalida, digite novamente: ");
-            opcao = Leitura.dados("Digite o numero da turma que deseja excluir: ");
+        int opcaoUsuario = -1;
+        while (opcaoValida==-1) {
+            opcaoUsuario = validarOpcaoExcluir(opcao);
+
+            if (opcaoUsuario == -1) {
+                System.out.println("opcao invalida, digite novamente: ");
+                opcao = Leitura.dados("Digite o numero da turma que deseja excluir: ");
+            }
+            else {
+                opcaoValida = opcaoUsuario;
+            }
         }
-        listaTurmas.remove(validarOpcaoExcluir(opcao));
+        String confirma = Leitura.dados("voce tem certeza? (S/N)");
+        if (confirmaExclusao()){
+            listaTurmas.remove(opcaoUsuario);
+            System.out.println("turma excluida com sucesso");
+        }
+    }
+
+    private static boolean confirmaExclusao() {
+        while (true) {
+            String confirma = Leitura.dados("voce tem certeza? (S/N)").toUpperCase();
+            switch (confirma) {
+                case "S":
+                    return true;
+                case "N":
+                    return false;
+                default:
+                    System.out.println("opcao invalida, digite S para sim ou N para nao.");
+                    break;
+            }
+        }
     }
 
     private static int validarOpcaoExcluir(String opcao) {
