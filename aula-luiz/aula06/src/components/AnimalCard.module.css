@@ -1,0 +1,28 @@
+.card {
+  background-color: #f4f6f6;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.name {
+  color: var(--verde-selva);
+  margin-bottom: 5px;
+}
+
+.species {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.perigo {
+  color: var(--perigo);
+  font-weight: bold;
+}
+
+.seguro {
+  color: var(--seguro);
+  font-weight: bold;
+}
