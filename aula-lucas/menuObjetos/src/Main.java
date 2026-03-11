@@ -99,7 +99,7 @@ public class Main {
     }
 
     private static void excluirTurma() {
-        if(isVazio(listaTurmas)) {
+        if(isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -174,7 +174,7 @@ public class Main {
     }
 
     private static void atualizarTurma() {
-        if(isVazio(listaTurmas)) {
+        if(isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -355,7 +355,7 @@ public class Main {
     }
 
     private static void listarTurmas() {
-        if(isVazio(listaTurmas)) {
+        if(isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -384,7 +384,7 @@ public class Main {
         }
         for(Aluno a : listaAlunos ){
             if (a.isAtivo())
-                System.out.println(t);
+                System.out.println(a);
         }
     }
 }
