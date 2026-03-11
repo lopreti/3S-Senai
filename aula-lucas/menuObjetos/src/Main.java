@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Main {
@@ -100,7 +101,7 @@ public class Main {
     }
 
     private static void excluirTurma() {
-        if(isTurmaVazio(listaTurmas)) {
+        if (isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -109,7 +110,7 @@ public class Main {
 
         int idExcluir = validaIdTurma();
 
-        if (confirmaExclusao()){
+        if (confirmaExclusao()) {
 //            listaTurmas.remove(idExcluir);
             listaTurmas.get(idExcluir).setAtivo(false);
             System.out.println("Turma excluída com sucesso!");
@@ -119,7 +120,7 @@ public class Main {
     private static boolean isTurmaVazio(ArrayList<Turma> listaTurmas) {
         if (listaTurmas.isEmpty()) return true;
 
-        for (Turma turma : listaTurmas){
+        for (Turma turma : listaTurmas) {
             if (turma.isAtivo()) return false;
         }
 
@@ -129,7 +130,7 @@ public class Main {
     private static boolean isAlunoVazio(ArrayList<Aluno> listaAlunos) {
         if (listaAlunos.isEmpty()) return true;
 
-        for (Aluno aluno : listaAlunos){
+        for (Aluno aluno : listaAlunos) {
             if (aluno.isAtivo()) return false;
         }
 
@@ -156,27 +157,27 @@ public class Main {
 
         int opcaoNumero = -1;
 
-        try{
+        try {
             opcaoNumero = Integer.parseInt(opcao);
         } catch (NumberFormatException e) {
             return -1;
         }
 
-        int indiceLista = opcaoNumero-1;
+        int indiceLista = opcaoNumero - 1;
         return indiceLista >= 0 && listaTurmas.size() > indiceLista ? indiceLista : -1;
     }
 
     private static void listarTurmasIndiceSigla() {
         System.out.println("\nLista das Turmas:");
-        for (int i=0;i<listaTurmas.size();i++){
+        for (int i = 0; i < listaTurmas.size(); i++) {
             if (listaTurmas.get(i).isAtivo())
-                System.out.printf("\n%d - %s",i+1, listaTurmas.get(i).getSigla());
+                System.out.printf("\n%d - %s", i + 1, listaTurmas.get(i).getSigla());
         }
     }
 
 
     private static void atualizarTurma() {
-        if(isTurmaVazio(listaTurmas)) {
+        if (isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -205,13 +206,13 @@ public class Main {
 //        atualizarSigla(idAtualizar);
     }
 
-    private static void atualizarParcial(String atributo, int idAtualizar){
+    private static void atualizarParcial(String atributo, int idAtualizar) {
         boolean rodarNovamente = true;
         while (rodarNovamente) {
-            String opcao = Leitura.dados("\nDeseja modificar "+ atributo +" ? (S/N): ").toUpperCase();
+            String opcao = Leitura.dados("\nDeseja modificar " + atributo + " ? (S/N): ").toUpperCase();
             switch (opcao) {
                 case "S":
-                    switch (atributo){
+                    switch (atributo) {
                         case "período":
                             Periodo periodo = validarPeriodo();
                             listaTurmas.get(idAtualizar).setPeriodo(periodo);
@@ -239,7 +240,7 @@ public class Main {
 
     private static String validarSigla() {
         String sigla = Leitura.dados("Digite a sigla: ");
-        while(!validarSigla(sigla)){
+        while (!validarSigla(sigla)) {
             System.out.println("Sigla inválida! Precisa conter texto e não pode ser repetida");
             sigla = Leitura.dados("Digite a sigla: ");
         }
@@ -248,7 +249,7 @@ public class Main {
 
     private static String validarCurso() {
         String curso = Leitura.dados("Digite o curso: ");
-        while(!isCharacter(curso)) {
+        while (!isCharacter(curso)) {
             System.out.println("Nome de curso inválido! Não use números ou caracteres especiais, por favor");
             curso = Leitura.dados("Digite o curso: ");
         }
@@ -296,10 +297,10 @@ public class Main {
         String opcao = Leitura.dados("\nDigite o número da turma desejada: ");
         int opcaoValida = -1;
         int opcaoUsuario = -1;
-        while (opcaoValida==-1){
+        while (opcaoValida == -1) {
             opcaoUsuario = validarItemLista(opcao);
 
-            if (opcaoUsuario==-1) {
+            if (opcaoUsuario == -1) {
                 System.out.println("Opção inválida! Digite novamente: ");
                 opcao = Leitura.dados("Digite o número da turma desejada: ");
             } else {
@@ -321,8 +322,8 @@ public class Main {
     private static boolean validarSigla(String sigla) {
         if (sigla.isBlank()) return false;
 
-        for (Turma turma : listaTurmas){
-            if (turma.getSigla().equals(sigla)){
+        for (Turma turma : listaTurmas) {
+            if (turma.getSigla().equals(sigla)) {
                 return false;
             }
         }
@@ -341,7 +342,7 @@ public class Main {
                 2 - Vespertino
                 3 - Noturno
                 4 - Integral""");
-        switch (opcaoPeriodo){
+        switch (opcaoPeriodo) {
             case "1":
                 return Periodo.MATUTINO;
             case "2":
@@ -357,11 +358,11 @@ public class Main {
     }
 
     private static void listarTurmas() {
-        if(isTurmaVazio(listaTurmas)) {
+        if (isTurmaVazio(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
-        for(Turma t : listaTurmas){
+        for (Turma t : listaTurmas) {
             if (t.isAtivo())
                 System.out.println(t);
         }
@@ -376,19 +377,27 @@ public class Main {
     }
 
     private static void cadastrarAluno() {
-            String nome = validarNome();
-            LocalDate dataNascimento = validarDataNascimento();
-            Turma turma = validarTurma();
+        String nome = validarNome();
+        LocalDate dataNascimento = validarDataNascimento();
+        Turma turma = validarTurma();
 
-            Aluno aluno = new Aluno(nome, dataNascimento, turma);
-            listaAlunos.add(aluno);
-    }
-
-    private static Turma validarTurma() {
-        return null;
+        Aluno aluno = new Aluno(nome, dataNascimento, turma);
+        listaAlunos.add(aluno);
     }
 
     private static LocalDate validarDataNascimento() {
+        String entrada = Leitura.dados("Digite a data de nascimento: ");
+        LocalDate dataNascimento = LocalDate.parse(entrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        int idade = LocalDate.now().getYear() - dataNascimento.getYear();
+
+        if (idade < 14 || idade > 130) {
+            System.out.println("Idade inválida!");
+            return null;
+        } else {
+            return dataNascimento;
+        }
+}
+    private static Turma validarTurma() {
         return null;
     }
 
