@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Main {
@@ -172,6 +173,7 @@ public class Main {
                 System.out.printf("\n%d - %s",i+1, listaTurmas.get(i).getSigla());
         }
     }
+
 
     private static void atualizarTurma() {
         if(isTurmaVazio(listaTurmas)) {
@@ -374,6 +376,29 @@ public class Main {
     }
 
     private static void cadastrarAluno() {
+            String nome = validarNome();
+            LocalDate dataNascimento = validarDataNascimento();
+            Turma turma = validarTurma();
+
+            Aluno aluno = new Aluno(nome, dataNascimento, turma);
+            listaAlunos.add(aluno);
+    }
+
+    private static Turma validarTurma() {
+        return null;
+    }
+
+    private static LocalDate validarDataNascimento() {
+        return null;
+    }
+
+    private static String validarNome() {
+        String nome = Leitura.dados("Digite o nome: ");
+        while(!isCharacter(nome) || nome.isBlank()){
+            System.out.println("Nome inválido! Não use números ou caracteres especiais, por favor");
+            nome = Leitura.dados("Digite o nome novamente: ");
+        }
+        return nome;
 
     }
 
@@ -385,6 +410,14 @@ public class Main {
         for(Aluno a : listaAlunos ){
             if (a.isAtivo())
                 System.out.println(a);
+        }
+    }
+
+    private static void listarAlunosIndiceSigla() {
+        System.out.println("\nLista das Alunos:");
+        for (int i=0;i<listaAlunos.size();i++){
+            if (listaAlunos.get(i).isAtivo())
+                System.out.printf("\n%d - %s",i+1, listaAlunos.get(i).getNome());
         }
     }
 }
