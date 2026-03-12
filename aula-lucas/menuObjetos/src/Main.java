@@ -169,6 +169,7 @@ public class Main {
 
         int indiceLista = opcaoNumero - 1;
         return indiceLista >= 0 && listaTurmas.size() > indiceLista ? indiceLista : -1;
+        // deixar essa funcao generica pra poder usar aluno tbm
     }
 
     private static void listarTurmasIndiceSigla() {
@@ -415,7 +416,9 @@ public class Main {
                             break;
 
                         case "datanascimento":
-                            java.time.LocalDate datanascimento = validarDataNascimento();
+                            LocalDate datanascimento = validarDataNascimento();
+                            if(datanascimento == null)
+                                return;
                             listaAlunos.get(idAtualizar).setDataNascimento(datanascimento);
                             break;
 
@@ -461,12 +464,12 @@ public class Main {
                 int idade = Period.between(dataNascimento, LocalDate.now()).getYears();
 
                 if (idade < 14) {
-                    System.out.println("Aluno deve ter pelo menos 14 anos. Voltando ao menu");
-                    return null;
+                    System.out.println("Aluno deve ter pelo menos 14 anos. Digite uma idade válida");
+                    continue;
                 }
                 if (idade > 130) {
-                    System.out.println("Idade inválida (maximo de 130 anos). Voltando ao menu");
-                    return null;
+                    System.out.println("Idade inválida (maximo de 130 anos). Digite uma idade válida");
+                    continue;
                 }
 
                 return dataNascimento;
