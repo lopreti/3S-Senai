@@ -377,7 +377,36 @@ public class Main {
     }
 
     private static void excluirAluno() {
+        if (isAlunoVazio(listaAlunos)) {
+            System.out.println("Não há alunos cadastrado");
+            return;
+        }
 
+        listarAlunosIndiceSigla();
+
+        int idExcluir = validaIdALuno();
+
+        if (confirmaExclusao()) {
+            listaAlunos.get(idExcluir).setAtivo(false);
+            System.out.println("aluno excluido com sucesso!");
+        }
+    }
+
+    private static int validaIdALuno() {
+        String opcao = Leitura.dados("\nDigite o número do aluno desejado: ");
+        int opcaoValida = -1;
+        int opcaoUsuario = -1;
+        while (opcaoValida == -1) {
+            opcaoUsuario = validarItemLista(opcao);
+
+            if (opcaoUsuario == -1) {
+                System.out.println("Opção inválida! Digite novamente: ");
+                opcao = Leitura.dados("Digite o número do aluno desejado: ");
+            } else {
+                opcaoValida = opcaoUsuario;
+            }
+        }
+        return opcaoValida;
     }
 
     private static void atualizarAluno() {
