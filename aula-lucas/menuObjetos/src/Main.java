@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -84,12 +85,15 @@ public class Main {
                 break;
             case "2":
                 cadastrarAluno();
+                menuAlunos();
                 break;
             case "3":
                 atualizarAluno();
+                menuAlunos();
                 break;
             case "4":
                 excluirAluno();
+                menuAlunos();
                 break;
             case "5":
                 menuPrincipal();
@@ -335,6 +339,10 @@ public class Main {
         return !texto.isBlank() && texto.equals(textoSemNumeros);
     }
 
+    private static boolean isCharacterEspecial(String texto) {
+        return !texto.isBlank() && texto.matches("[a-zA-ZÀ-ÿ\\s]+");
+    }
+
     private static Periodo validarPeriodo() {
         String opcaoPeriodo = Leitura.dados("""
                 Digite o número do período escolhido:
@@ -379,44 +387,72 @@ public class Main {
     private static void cadastrarAluno() {
         String nome = validarNome();
         LocalDate dataNascimento = validarDataNascimento();
+        if (dataNascimento == null) {
+            menuAlunos();
+            return;
+        }
         Turma turma = validarTurma();
+        if (turma == null) {
+            menuAlunos();
+            return;
+        }
 
         Aluno aluno = new Aluno(nome, dataNascimento, turma);
         listaAlunos.add(aluno);
+        System.out.println("Aluno criado com sucesso");
     }
 
     private static LocalDate validarDataNascimento() {
-        String entrada = Leitura.dados("Digite a data de nascimento: ");
-        LocalDate dataNascimento = LocalDate.parse(entrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        int idade = LocalDate.now().getYear() - dataNascimento.getYear();
+        while (true) {
+            try {
+                String entrada = Leitura.dados("Digite a data de nascimento (dd/MM/yyyy): ");
+                LocalDate dataNascimento = LocalDate.parse(entrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                int idade = Period.between(dataNascimento, LocalDate.now()).getYears();
 
-        if (idade < 14 || idade > 130) {
-            System.out.println("Idade inválida!");
-            return null;
-        } else {
-            return dataNascimento;
+                if (idade < 14) {
+                    System.out.println("Aluno deve ter pelo menos 14 anos. Voltando ao menu");
+                    return null;
+                }
+                if (idade > 130) {
+                    System.out.println("Idade inválida (maximo de 130 anos). Voltando ao menu");
+                    return null;
+                }
+
+                return dataNascimento;
+
+            } catch (Exception e) {
+                System.out.println("Data inválida!");
+            }
         }
-}
+    }
+
     private static Turma validarTurma() {
-        return null;
+        if (isTurmaVazio(listaTurmas)) {
+            System.out.println("Não há turmas cadastradas");
+            return null;
+        }
+
+        listarTurmasIndiceSigla();
+
+        int idEscolhaTurma = validaIdTurma();
+        return listaTurmas.get(idEscolhaTurma);
     }
 
     private static String validarNome() {
         String nome = Leitura.dados("Digite o nome: ");
-        while(!isCharacter(nome) || nome.isBlank()){
+        while (nome == null || !isCharacterEspecial(nome.trim())) {
             System.out.println("Nome inválido! Não use números ou caracteres especiais, por favor");
             nome = Leitura.dados("Digite o nome novamente: ");
         }
         return nome;
-
     }
 
     private static void listarAlunos() {
-        if(isAlunoVazio(listaAlunos)) {
+        if (isAlunoVazio(listaAlunos)) {
             System.out.println("Não há alunos cadastrados");
             return;
         }
-        for(Aluno a : listaAlunos ){
+        for (Aluno a : listaAlunos) {
             if (a.isAtivo())
                 System.out.println(a);
         }
@@ -424,9 +460,9 @@ public class Main {
 
     private static void listarAlunosIndiceSigla() {
         System.out.println("\nLista das Alunos:");
-        for (int i=0;i<listaAlunos.size();i++){
+        for (int i = 0; i < listaAlunos.size(); i++) {
             if (listaAlunos.get(i).isAtivo())
-                System.out.printf("\n%d - %s",i+1, listaAlunos.get(i).getNome());
+                System.out.printf("\n%d - %s", i + 1, listaAlunos.get(i).getNome());
         }
     }
 }
