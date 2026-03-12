@@ -198,16 +198,6 @@ public class Main {
 
         System.out.printf("A sigla atual é: %s", listaTurmas.get(idAtualizar).getSigla());
         atualizarParcial("sigla", idAtualizar);
-
-//        System.out.println("O período atual é: " + listaTurmas.get(idAtualizar).getPeriodo());
-//        System.out.printf("O período atual é: %s", listaTurmas.get(idAtualizar).getPeriodo());
-//        atualizarPeriodo(idAtualizar);
-//
-//        System.out.printf("O curso atual é: %s", listaTurmas.get(idAtualizar).getCurso());
-//        atualizarCurso(idAtualizar);
-//
-//        System.out.printf("A sigla atual é: %s", listaTurmas.get(idAtualizar).getSigla());
-//        atualizarSigla(idAtualizar);
     }
 
     private static void atualizarParcial(String atributo, int idAtualizar) {
@@ -278,23 +268,6 @@ public class Main {
                     System.out.println("Opção inválida! Escolha S para SIM ou N para NÃO");
             }
         }
-
-//        while (true) {
-//            String opcaoPeriodo = Leitura.dados("\nDeseja modificar o período? (S/N): ").toUpperCase();
-//            switch (opcaoPeriodo) {
-//                case "S":
-////                Periodo periodo = validarPeriodo();
-////                listaTurmas.get(idAtualizar).setPeriodo(periodo);
-//                    listaTurmas.get(idAtualizar).setPeriodo(validarPeriodo());
-//                    break;
-//                case "N":
-//                    break;
-//                default:
-//                    System.out.println("Opção inválida! Escolha S para SIM ou N para NÃO");
-//                    continue;
-//            }
-//            break;
-//        }
     }
 
     private static int validaIdTurma() {
@@ -410,9 +383,58 @@ public class Main {
     }
 
     private static void atualizarAluno() {
+        if (isAlunoVazio(listaAlunos)) {
+            System.out.println("Não há alunos cadastrados");
+            return;
+        }
 
+        listarAlunosIndiceSigla();
+
+        int idAtualizar = validaIdALuno();
+
+        System.out.printf("O nome atual é: %s", listaAlunos.get(idAtualizar).getNome());
+        atualizarParcialAluno("nome", idAtualizar);
+
+        System.out.printf("A data de nascimento atual é: %s", listaAlunos.get(idAtualizar).getDataNascimento());
+        atualizarParcialAluno("datanascimento", idAtualizar);
+
+        System.out.printf("A turma atual é: %s", listaAlunos.get(idAtualizar).getTurma());
+        atualizarParcialAluno("turma", idAtualizar);
     }
 
+    private static void atualizarParcialAluno(String atributo, int idAtualizar) {
+        boolean rodarNovamente = true;
+        while (rodarNovamente) {
+            String opcao = Leitura.dados("\nDeseja modificar " + atributo + " ? (S/N): ").toUpperCase();
+            switch (opcao) {
+                case "S":
+                    switch (atributo) {
+                        case "nome":
+                            String nome = validarNome();
+                            listaAlunos.get(idAtualizar).setNome(nome);
+                            break;
+
+                        case "datanascimento":
+                            java.time.LocalDate datanascimento = validarDataNascimento();
+                            listaAlunos.get(idAtualizar).setDataNascimento(datanascimento);
+                            break;
+
+                        case "turma":
+                            Turma turma = validarTurma();
+                            listaAlunos.get(idAtualizar).setTurma(turma);
+                            break;
+                    }
+                    System.out.println(atributo + " atualizado com sucesso!");
+                    rodarNovamente = false;
+                    break;
+                case "N":
+                    rodarNovamente = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida! Escolha S para SIM ou N para NÃO");
+            }
+        }
+    }
     private static void cadastrarAluno() {
         String nome = validarNome();
         LocalDate dataNascimento = validarDataNascimento();

@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Aluno {
     private String nome;
@@ -56,10 +57,12 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" +
-                "nome='" + nome + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                ", turma=" + turma +
-                '}';
+        return String.format("""
+            === Aluno ===
+            Nome: %s
+            Nascimento: %s
+            Turma: %s
+            Curso: %s
+            """, nome, dataNascimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), turma.getSigla(), turma.getCurso());
     }
 }
