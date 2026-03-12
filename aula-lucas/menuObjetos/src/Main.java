@@ -172,6 +172,21 @@ public class Main {
         // deixar essa funcao generica pra poder usar aluno tbm
     }
 
+    private static int validarItemListaAlunos(String opcao) {
+        if (opcao.isBlank()) return -1;
+
+        int opcaoNumero = -1;
+
+        try {
+            opcaoNumero = Integer.parseInt(opcao);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+
+        int indiceLista = opcaoNumero - 1;
+        return indiceLista >= 0 && listaAlunos.size() > indiceLista ? indiceLista : -1;
+    }
+
     private static void listarTurmasIndiceSigla() {
         System.out.println("\nLista das Turmas:");
         for (int i = 0; i < listaTurmas.size(); i++) {
@@ -371,7 +386,7 @@ public class Main {
         int opcaoValida = -1;
         int opcaoUsuario = -1;
         while (opcaoValida == -1) {
-            opcaoUsuario = validarItemLista(opcao);
+            opcaoUsuario = validarItemListaAlunos(opcao);
 
             if (opcaoUsuario == -1) {
                 System.out.println("Opção inválida! Digite novamente: ");
