@@ -181,7 +181,7 @@ public class Main {
 //        return indiceLista >= 0 && listaTurmas.size() > indiceLista ? indiceLista : -1;
 //    }
 
-    private static int validarItemLista(String opcao, ArrayList<? extends Ativavel> lista) {
+    private static int validarItemLista(String opcao, ArrayList<?> lista) {
         if (opcao.isBlank()) return -1;
 
         try {
@@ -308,7 +308,7 @@ public class Main {
 //        return opcaoValida;
 //    }
 
-private static int validaId(ArrayList<? extends Ativavel> lista) {
+private static int validaId(ArrayList<?> lista) {
     String opcao = Leitura.dados("\nDigite o número desejado: ");
     int opcaoValida = -1;
     int opcaoUsuario = -1;
