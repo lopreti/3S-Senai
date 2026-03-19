@@ -1,4 +1,3 @@
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -47,7 +46,7 @@ public class Main {
         String opcao = Leitura.dados("Digite a opção desejada: ");
         switch (opcao) {
             case "1":
-                listarTurmas();
+                listar(listaTurmas);
                 menuTurmas();
                 break;
             case "2":
@@ -81,7 +80,7 @@ public class Main {
         String opcao = Leitura.dados("Digite a opção desejada: ");
         switch (opcao) {
             case "1":
-                listarAlunos();
+                listar(listaAlunos);
                 menuAlunos();
                 break;
             case "2":
@@ -180,7 +179,6 @@ public class Main {
 //
 //        int indiceLista = opcaoNumero - 1;
 //        return indiceLista >= 0 && listaTurmas.size() > indiceLista ? indiceLista : -1;
-//        // deixar essa funcao generica pra poder usar aluno tbm
 //    }
 
     private static int validarItemLista(String opcao, ArrayList<? extends Ativavel> lista) {
@@ -361,17 +359,6 @@ public class Main {
         }
     }
 
-    private static void listarTurmas() {
-        if (isVazio(listaTurmas)) {
-            System.out.println("Não há turmas cadastradas");
-            return;
-        }
-        for (Turma t : listaTurmas) {
-            if (t.isAtivo())
-                System.out.println(t);
-        }
-    }
-
     private static void excluirAluno() {
         if (isVazio(listaAlunos)) {
             System.out.println("Não há alunos cadastrado");
@@ -523,14 +510,14 @@ public class Main {
         return nome;
     }
 
-    private static void listarAlunos() {
-        if (isVazio(listaAlunos)) {
-            System.out.println("Não há alunos cadastrados");
+    private static void listar(ArrayList<? extends Ativavel> lista) {
+        if (isVazio(lista)) {
+            System.out.println("nao sobrou nada aqui");
             return;
         }
-        for (Aluno a : listaAlunos) {
-            if (a.isAtivo())
-                System.out.println(a);
+        for (Ativavel item : lista) {
+            if (item.isAtivo())
+                System.out.println(item);
         }
     }
 
