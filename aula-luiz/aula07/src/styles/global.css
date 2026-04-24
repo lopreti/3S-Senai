@@ -1,0 +1,17 @@
+@import './theme.css';
+
+html {
+  font-size: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-dark);
+  font-family: sans-serif;
+  color: var(--text-main);
+}

@@ -1,0 +1,15 @@
+.main-form {
+  max-width: 25rem;
+  width: 100%;
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.main-form h1 {
+  color: var(--text-main);
+  font-size: 1.5rem;
+}
